@@ -75,7 +75,8 @@
               "browserTarget": "yoake:build:production"
             },
             "development": {
-              "browserTarget": "yoake:build:development"
+              "browserTarget": "yoake:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
