@@ -1,6 +1,7 @@
 package org.astlaure.yoake.security;
 
 import org.assertj.core.api.Assertions;
+import org.astlaure.yoake.mocks.UserMock;
 import org.astlaure.yoake.users.User;
 import org.astlaure.yoake.users.enums.UserRole;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,14 +29,7 @@ public class SecurityLoginSuccessHandlerTests {
     @BeforeEach
     void beforeEach() {
         successHandler = new SecurityLoginSuccessHandler();
-        Mockito.when(authentication.getPrincipal()).thenReturn(User.builder()
-                .id(1L)
-                .name("Jasmine Karma")
-                .username("jasmine@karma.io")
-                .password("encrypted")
-                .role(UserRole.ROLE_ADMIN)
-                .enabled(true)
-                .build());
+        Mockito.when(authentication.getPrincipal()).thenReturn(UserMock.getInstance());
     }
 
     @Test

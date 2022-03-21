@@ -1,5 +1,6 @@
 package org.astlaure.yoake.auth;
 
+import org.astlaure.yoake.mocks.UserMock;
 import org.astlaure.yoake.users.User;
 import org.astlaure.yoake.users.UserRepository;
 import org.astlaure.yoake.users.enums.UserRole;
@@ -36,14 +37,7 @@ public class AuthControllerTests {
     @BeforeEach
     void beforeEach() {
         Mockito.when(userRepository.findByUsername(Mockito.anyString()))
-                .thenReturn(Optional.of(User.builder()
-                        .id(1L)
-                        .name("Jasmine Karma")
-                        .username("jasmine@karma.io")
-                        .password("encrypted")
-                        .role(UserRole.ROLE_ADMIN)
-                        .enabled(true)
-                        .build()));
+                .thenReturn(Optional.of(UserMock.getInstance()));
     }
 
     @Test

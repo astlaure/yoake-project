@@ -1,7 +1,9 @@
 package org.astlaure.yoake.users;
 
 import org.assertj.core.api.Assertions;
+import org.astlaure.yoake.mocks.UserMock;
 import org.astlaure.yoake.users.enums.UserRole;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -16,22 +18,20 @@ import java.util.Optional;
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
+    private UserService userService;
+
     @Mock
     private UserRepository userRepository;
+
+    @BeforeEach
+    void beforeEach() {
+        userService = new UserService(userRepository);
+    }
 
     @Test
     void shouldReturnAnExistingUser() {
         Mockito.when(userRepository.findByUsername(Mockito.anyString()))
-                .thenReturn(Optional.of(User.builder()
-                                .id(1L)
-                                .name("Jasmine Karma")
-                                .username("jasmine@karma.io")
-                                .password("encrypted")
-                                .role(UserRole.ROLE_ADMIN)
-                                .enabled(true)
-                        .build()));
-
-        UserService userService = new UserService(userRepository);
+                .thenReturn(Optional.of(UserMock.getInstance()));
 
         UserDetails user = userService.loadUserByUsername("jasmine@karma.io");
 
@@ -42,8 +42,6 @@ public class UserServiceTests {
     void shouldThrowAnException() {
         Mockito.when(userRepository.findByUsername(Mockito.anyString()))
                 .thenReturn(Optional.empty());
-
-        UserService userService = new UserService(userRepository);
 
         Assertions.assertThatThrownBy(() -> userService.loadUserByUsername("jasmine@karma.io"))
                 .isInstanceOf(UsernameNotFoundException.class);
